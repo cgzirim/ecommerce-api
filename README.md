@@ -14,7 +14,6 @@ This is a sample e-commerce API built with Go and Gin framework. It provides end
 ### Prerequisites
 
 - Go 1.16+
-- Docker (optional, for database setup)
 
 ### Installation
 
