@@ -1,0 +1,967 @@
+basePath: /v1
+definitions:
+  dtos.AddressDetail:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        example: "2024-12-26T01:59:44.840049+01:00"
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      street_address:
+        type: string
+      updated_at:
+        example: "2024-12-26T01:59:44.840049+01:00"
+        type: string
+      user_id:
+        type: integer
+      zip_code:
+        type: string
+    type: object
+  dtos.AdminRegistrationRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      password_confirm:
+        minLength: 6
+        type: string
+      secret_key:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    - password_confirm
+    - secret_key
+    type: object
+  dtos.CreateAddressRequest:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      street_address:
+        type: string
+      zip_code:
+        type: string
+    required:
+    - city
+    - country
+    - first_name
+    - last_name
+    - street_address
+    - zip_code
+    type: object
+  dtos.CreateOrderRequest:
+    properties:
+      address_id:
+        type: integer
+      order_items:
+        items:
+          $ref: '#/definitions/dtos.OrderItemRequest'
+        type: array
+    required:
+    - address_id
+    - order_items
+    type: object
+  dtos.CreateProductRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+    required:
+    - category
+    - description
+    - name
+    - price
+    - stock
+    type: object
+  dtos.CustomerRegistrationRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      password_confirm:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    - password_confirm
+    type: object
+  dtos.ErrorResponse:
+    properties:
+      error:
+        example: Validation failed
+        type: string
+    type: object
+  dtos.LoginRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: securepassword
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dtos.LoginSuccessResponse:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      msg:
+        example: Login successful
+        type: string
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/dtos.UserDetails'
+    type: object
+  dtos.OrderItemRequest:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - product_id
+    - quantity
+    type: object
+  dtos.OrderListResponse:
+    properties:
+      orders:
+        items:
+          $ref: '#/definitions/models.Order'
+        type: array
+      page:
+        example: 1
+        type: integer
+      page_size:
+        example: 10
+        type: integer
+      total_count:
+        example: 100
+        type: integer
+      total_pages:
+        example: 10
+        type: integer
+    type: object
+  dtos.PatchProductRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+    type: object
+  dtos.ProductDetail:
+    properties:
+      category:
+        type: string
+      created_at:
+        example: "2024-12-26T01:59:44.840049+01:00"
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      updated_at:
+        example: "2024-12-26T01:59:44.840049+01:00"
+        type: string
+    type: object
+  dtos.ProductListResponse:
+    properties:
+      page:
+        example: 2
+        type: integer
+      page_size:
+        example: 10
+        type: integer
+      products:
+        items:
+          $ref: '#/definitions/dtos.ProductDetail'
+        type: array
+      total_count:
+        example: 100
+        type: integer
+      total_pages:
+        example: 10
+        type: integer
+    type: object
+  dtos.RegistrationSuccessResponse:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      msg:
+        example: Account registered successfully
+        type: string
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/dtos.UserDetails'
+    type: object
+  dtos.UpdateOrderStatusRequest:
+    properties:
+      status:
+        type: string
+    required:
+    - status
+    type: object
+  dtos.UserDetails:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_login:
+        type: string
+      last_name:
+        type: string
+      role:
+        type: string
+    type: object
+  models.Address:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      street_address:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+      zip_code:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      address:
+        $ref: '#/definitions/models.Address'
+      created_at:
+        type: string
+      id:
+        type: integer
+      order_items:
+        items:
+          $ref: '#/definitions/models.OrderItem'
+        type: array
+      status:
+        type: string
+      total:
+        type: number
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  models.OrderItem:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      order_id:
+        type: integer
+      price:
+        type: number
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Product:
+    properties:
+      category:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_login:
+        type: string
+      last_name:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample e-commerce API documentation.
+  title: E-Commerce API
+  version: "1.0"
+paths:
+  /addresses:
+    post:
+      consumes:
+      - application/json
+      description: Create a new address for the logged in user
+      parameters:
+      - description: Address information
+        in: body
+        name: address
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateAddressRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Address created successfully
+          schema:
+            $ref: '#/definitions/dtos.AddressDetail'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new address
+      tags:
+      - User
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Allows a user to login by providing email and password.
+      parameters:
+      - description: Login details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful
+          schema:
+            $ref: '#/definitions/dtos.LoginSuccessResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      summary: User login
+      tags:
+      - Auth
+  /orders:
+    post:
+      consumes:
+      - application/json
+      description: Allows a user to create a new order with the specified address
+        and items.
+      parameters:
+      - description: Order information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Order created successfully
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Invalid input data
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new order
+      tags:
+      - Order
+  /orders/{id}/cancel:
+    patch:
+      consumes:
+      - application/json
+      description: Allows the owner of an order to cancel it if it is still in the
+        pending status.
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order cancelled successfully
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Invalid order ID or order cannot be cancelled
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized, you can only cancel your own orders
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "404":
+          description: Order not found
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Cancel an order
+      tags:
+      - Order
+  /orders/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Allows an admin to update the status of an order.
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Order status update information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UpdateOrderStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order status updated successfully
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Invalid order ID or status
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized, only admins can update order status
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "404":
+          description: Order not found
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update the status of an order
+      tags:
+      - Order
+  /orders/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a paginated list of orders for a specific user. Non-admin
+        users can only list their own orders. Admins can list orders for any user.
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of orders per page
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the paginated list of orders
+          schema:
+            $ref: '#/definitions/dtos.OrderListResponse'
+        "400":
+          description: Invalid user ID or page parameters
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized, you can only view your own orders
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List orders for a specific user
+      tags:
+      - Order
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a paginated list of products with the ability to specify
+        page and page size.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of products per page
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the paginated list of products
+          schema:
+            $ref: '#/definitions/dtos.ProductListResponse'
+        "400":
+          description: Invalid page number or pageSize
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      summary: Retrieve a paginated list of products
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Allows an admin to create a new product
+      parameters:
+      - description: Product information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Product created successfully
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Invalid input data
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized access, only admins can create products
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new product
+      tags:
+      - Product
+  /products/{id}:
+    delete:
+      description: Allows an admin to delete a product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Product deleted successfully
+        "400":
+          description: Invalid product ID
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized access, only admins can delete products
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a product
+      tags:
+      - Product
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a product by its unique ID.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductDetail'
+        "400":
+          description: Invalid product ID
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      summary: Retrieve a product by ID
+      tags:
+      - Product
+    patch:
+      consumes:
+      - application/json
+      description: Allows an admin to update specific fields of an existing product
+        by providing the product ID and the updated data.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Product data to patch
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.PatchProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated product details
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Invalid product ID or request payload
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized access, only admins can patch products
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Partially update an existing product
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: Allows an admin to fully update all fields of an existing product
+        by providing the product ID and new data.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Product data to update
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated product details
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Invalid product ID or request payload
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "403":
+          description: Unauthorized access, only admins can update products
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Fully update an existing product
+      tags:
+      - Product
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Allows a user to register as a customer by providing necessary
+        details.
+      parameters:
+      - description: Customer registration details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CustomerRegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully registered customer
+          schema:
+            $ref: '#/definitions/dtos.RegistrationSuccessResponse'
+        "400":
+          description: Validation error or mismatched passwords
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      summary: Register a new customer
+      tags:
+      - Auth
+  /register/admin:
+    post:
+      consumes:
+      - application/json
+      description: 'Allows a user to register as an admin by providing the necessary
+        details, including a secret key for authentication (```secret_key: admin123```).'
+      parameters:
+      - description: Admin registration details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.AdminRegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Account registered successfully
+          schema:
+            $ref: '#/definitions/dtos.RegistrationSuccessResponse'
+        "400":
+          description: Validation error or mismatched passwords
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      summary: Register a new admin
+      tags:
+      - Auth
+  /users/addresses:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all addresses associated with the logged in user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved addresses
+          schema:
+            items:
+              $ref: '#/definitions/dtos.AddressDetail'
+            type: array
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List all addresses for a user
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
