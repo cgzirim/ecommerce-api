@@ -44,21 +44,11 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	order := models.Order{
-		UserID:    user.ID,
-		AddressID: createOrderRequest.AddressID,
-		Total:     0, // This will be calculated
-		Status:    models.OrderStatusPending,
-	}
-
-	if err := db.DB.Create(&order).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	// loop through the order items and validate the product ID and quantity
+	// loop through the order items and validate the product ID and quantity, and
+	// calculate the total order amount
+	var orderTotal float64
 	products := make(map[uint]models.Product)
-	for _, item := range createOrderRequest.Items {
+	for _, item := range createOrderRequest.OrderItems {
 		var product models.Product
 		if err := db.DB.First(&product, item.ProductID).Error; err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -75,12 +65,23 @@ func CreateOrder(c *gin.Context) {
 		}
 
 		products[product.ID] = product
+		orderTotal += product.Price * float64(item.Quantity)
 	}
 
-	var total float64
+	order := models.Order{
+		UserID:    user.ID,
+		AddressID: createOrderRequest.AddressID,
+		Total:     float64(orderTotal),
+		Status:    models.OrderStatusPending,
+	}
+
+	if err := db.DB.Create(&order).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
 	// loop through the order items and create the order items
-	for _, item := range createOrderRequest.Items {
+	for _, item := range createOrderRequest.OrderItems {
 		product := products[item.ProductID]
 
 		orderItem := models.OrderItem{
@@ -95,16 +96,13 @@ func CreateOrder(c *gin.Context) {
 			return
 		}
 
-		total += orderItem.Price
 	}
 
-	order.Total = total
 	if err := db.DB.Save(&order).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Preload associations before returning the response
 	if err := db.DB.Preload("User").Preload("Address").Preload("OrderItems").First(&order, order.ID).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -229,7 +227,7 @@ func CancelOrder(c *gin.Context) {
 	}
 
 	if order.Status != models.OrderStatusPending {
-		c.JSON(http.StatusBadRequest, dtos.ErrorResponse{Error: "Order cannot be cancelled, it is not in pending status"})
+		c.JSON(http.StatusBadRequest, dtos.ErrorResponse{Error: "Order cannot be cancelled, it is not in pending state"})
 		return
 	}
 
