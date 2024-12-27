@@ -78,6 +78,7 @@ definitions:
       order_items:
         items:
           $ref: '#/definitions/dtos.OrderItemRequest'
+        minItems: 1
         type: array
     required:
     - address_id
@@ -153,7 +154,7 @@ definitions:
         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         type: string
       user:
-        $ref: '#/definitions/dtos.UserDetails'
+        $ref: '#/definitions/models.User'
     type: object
   dtos.OrderItemRequest:
     properties:
@@ -197,27 +198,6 @@ definitions:
       stock:
         type: integer
     type: object
-  dtos.ProductDetail:
-    properties:
-      category:
-        type: string
-      created_at:
-        example: "2024-12-26T01:59:44.840049+01:00"
-        type: string
-      description:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      price:
-        type: number
-      stock:
-        type: integer
-      updated_at:
-        example: "2024-12-26T01:59:44.840049+01:00"
-        type: string
-    type: object
   dtos.ProductListResponse:
     properties:
       page:
@@ -228,7 +208,7 @@ definitions:
         type: integer
       products:
         items:
-          $ref: '#/definitions/dtos.ProductDetail'
+          $ref: '#/definitions/models.Product'
         type: array
       total_count:
         example: 100
@@ -249,7 +229,7 @@ definitions:
         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         type: string
       user:
-        $ref: '#/definitions/dtos.UserDetails'
+        $ref: '#/definitions/models.User'
     type: object
   dtos.UpdateOrderStatusRequest:
     properties:
@@ -257,21 +237,6 @@ definitions:
         type: string
     required:
     - status
-    type: object
-  dtos.UserDetails:
-    properties:
-      email:
-        type: string
-      first_name:
-        type: string
-      id:
-        type: integer
-      last_login:
-        type: string
-      last_name:
-        type: string
-      role:
-        type: string
     type: object
   models.Address:
     properties:
@@ -379,42 +344,6 @@ info:
   title: E-Commerce API
   version: "1.0"
 paths:
-  /addresses:
-    post:
-      consumes:
-      - application/json
-      description: Create a new address for the logged in user
-      parameters:
-      - description: Address information
-        in: body
-        name: address
-        required: true
-        schema:
-          $ref: '#/definitions/dtos.CreateAddressRequest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Address created successfully
-          schema:
-            $ref: '#/definitions/dtos.AddressDetail'
-        "400":
-          description: Invalid input
-          schema:
-            $ref: '#/definitions/dtos.ErrorResponse'
-        "401":
-          description: Unauthenticated, login is required
-          schema:
-            $ref: '#/definitions/dtos.ErrorResponse'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/dtos.ErrorResponse'
-      security:
-      - BearerAuth: []
-      summary: Create a new address
-      tags:
-      - User
   /login:
     post:
       consumes:
@@ -754,9 +683,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Successfully retrieved product
           schema:
-            $ref: '#/definitions/dtos.ProductDetail'
+            $ref: '#/definitions/models.Product'
         "400":
           description: Invalid product ID
           schema:
@@ -957,6 +886,41 @@ paths:
       security:
       - BearerAuth: []
       summary: List all addresses for a user
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Create a new address for the logged in user
+      parameters:
+      - description: Address information
+        in: body
+        name: address
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateAddressRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Address created successfully
+          schema:
+            $ref: '#/definitions/dtos.AddressDetail'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "401":
+          description: Unauthenticated, login is required
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dtos.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new address
       tags:
       - User
 securityDefinitions:
