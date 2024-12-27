@@ -47,3 +47,8 @@ func MigrateDBSchemas() {
 
 	log.Println("Database schemas migrated successfully.")
 }
+
+// SetMockDB is used for testing to set a mock DB.
+func SetMockDB(mockDB *gorm.DB) {
+	DB = mockDB
+}
