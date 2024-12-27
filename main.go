@@ -50,8 +50,8 @@ func SetupRouter() *gin.Engine {
 		v1.POST("/register/admin", controllers.RegisterAdmin)
 
 		// User routes
-		v1.POST("/addresses", controllers.CreateAddress)
 		v1.GET("/users/addresses", controllers.ListAddresses)
+		v1.POST("/users/addresses", controllers.CreateAddress)
 
 		// Product routes
 		v1.GET("/products", controllers.ListProducts)
