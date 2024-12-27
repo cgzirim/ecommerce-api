@@ -64,7 +64,7 @@ Swagger documentation is available at `http://localhost:8080/swagger/index.html`
 
 ### Project Structure
 
-- `controllers/`: Contains the handler functions for the API endpoints.
+- `controllers/`: Contains the handler functions for the API endpoints and their tests.
 - `db/`: Database connection and migration scripts.
 - `middleware/`: Custom middleware functions.
 - `docs/`: Swagger documentation files.
