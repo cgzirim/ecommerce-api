@@ -12,8 +12,8 @@ type OrderItemRequest struct {
 
 // CreateOrderRequest represents the expected request body for creating an order
 type CreateOrderRequest struct {
-	AddressID uint               `json:"address_id" binding:"required"`
-	Items     []OrderItemRequest `json:"order_items" binding:"required"`
+	AddressID  uint               `json:"address_id" binding:"required"`
+	OrderItems []OrderItemRequest `json:"order_items" binding:"required,min=1"`
 }
 
 // OrderDetail represents the response body for a successful order creation
