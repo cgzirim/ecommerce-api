@@ -58,6 +58,22 @@ This is a sample e-commerce API built with Go and Gin framework. It provides end
 
 2. The API will be available at `http://localhost:8080`.
 
+### Running the API with Docker Compose
+
+You can use Docker Compose to run the application along with the PostgreSQL database.
+
+1. Ensure Docker and Docker Compose are installed on your machine.
+
+2. Build and start the containers:
+
+    ```sh
+    docker-compose up --build
+    ```
+
+3. The API will be available at `http://localhost:8080`.
+
+4. The PostgreSQL database will be available at `localhost:5444`.
+
 ### API Documentation
 
 Swagger documentation is available at `http://localhost:8080/swagger/index.html`.
