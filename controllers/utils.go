@@ -29,6 +29,8 @@ func handleValidationErrors(err error, c *gin.Context) {
 				errorMessages[field] = fmt.Sprintf("Value must be greater than %s.", validationErr.Param())
 			case "required":
 				errorMessages[field] = "This field is required."
+			case "min":
+				errorMessages[field] = fmt.Sprintf("Value length must be greater than or equal to %s", validationErr.Param())
 			default:
 				errorMessages[field] = validationErr.Error()
 			}
