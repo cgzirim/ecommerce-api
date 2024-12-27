@@ -84,7 +84,7 @@ func RegisterCustomer(c *gin.Context) {
 		RefreshToken: refreshToken,
 	}
 
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusCreated, response)
 }
 
 // RegisterAdmin godoc
@@ -158,7 +158,7 @@ func RegisterAdmin(c *gin.Context) {
 		RefreshToken: refreshToken,
 	}
 
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusCreated, response)
 }
 
 // LoginUser godoc
