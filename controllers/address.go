@@ -50,7 +50,7 @@ func ListAddresses(c *gin.Context) {
 // @Failure 401 {object} dtos.ErrorResponse "Unauthenticated, login is required"
 // @Failure 500 {object} dtos.ErrorResponse "Internal server error"
 // @Security BearerAuth
-// @Router /addresses [post]
+// @Router /users/addresses [post]
 func CreateAddress(c *gin.Context) {
 	var request dtos.CreateAddressRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
