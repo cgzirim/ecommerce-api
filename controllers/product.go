@@ -69,7 +69,7 @@ func ListProducts(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Product ID"
-// @Success 200 {object} dtos.ProductDetail
+// @Success 200 {object} models.Product "Successfully retrieved product"
 // @Failure 400 {object} dtos.ErrorResponse "Invalid product ID"
 // @Failure 404 {object} dtos.ErrorResponse "Product not found"
 // @Failure 500 {object} dtos.ErrorResponse "Internal server error"
